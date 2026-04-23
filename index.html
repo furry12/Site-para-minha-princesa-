@@ -6,30 +6,44 @@
 <script src="https://cdn.tailwindcss.com"></script><style>
 body{
   margin:0;
-  background:#0b0015;
+  background: radial-gradient(circle at 30% 30%, #3a0ca3 0%, #000 60%),
+              radial-gradient(circle at 70% 60%, #7209b7 0%, transparent 60%),
+              #0b0015;
   color:#fff;
   font-family:sans-serif;
   overflow-x:hidden;
   overflow-y:auto;
 }
 
-/* GALAXIA REAL */
-body::before{
-  content:"";
+/* ESTRELAS */
+.stars{
   position:fixed;
-  width:200%;
-  height:200%;
-  background:
-    radial-gradient(2px 2px at 20% 30%, #c77dff, transparent),
-    radial-gradient(2px 2px at 70% 60%, #e0aaff, transparent),
-    radial-gradient(2px 2px at 40% 80%, #9d4edd, transparent);
-  animation: move 60s linear infinite;
+  width:100%;
+  height:100%;
+  background:transparent;
   z-index:0;
 }
 
-@keyframes move{
-  from{transform:translate(0,0)}
-  to{transform:translate(-300px,-300px)}
+.stars::after{
+  content:"";
+  position:absolute;
+  width:2px;
+  height:2px;
+  background:white;
+  box-shadow:
+    50px 100px #c77dff,
+    150px 200px #fff,
+    250px 300px #9d4edd,
+    350px 400px #fff,
+    450px 150px #c77dff,
+    550px 250px #fff,
+    650px 350px #9d4edd;
+  animation: moveStars 40s linear infinite;
+}
+
+@keyframes moveStars{
+  from{transform:translateY(0)}
+  to{transform:translateY(-1000px)}
 }
 
 /* LINHA */
@@ -39,13 +53,13 @@ body::before{
   top:0;
   width:3px;
   height:100%;
-  background:#c77dff;
+  background:linear-gradient(#c77dff,#e0aaff);
   transform:translateX(-50%);
   box-shadow:0 0 15px #c77dff;
   z-index:1;
 }
 
-/* ETAPAS */
+/* ETAPAS COMO PLACA */
 .container{
   min-height:100vh;
   display:flex;
@@ -58,26 +72,18 @@ body::before{
   z-index:2;
 }
 
-/* CIRCULO DESTACADO */
-.container::before{
-  content:"";
-  position:absolute;
-  width:260px;
-  height:260px;
-  border:2px solid #c77dff;
-  border-radius:50%;
-  box-shadow:0 0 20px #c77dff;
-  animation:pulse 2s infinite;
-}
-
-@keyframes pulse{
-  0%{transform:scale(1);opacity:0.6}
-  50%{transform:scale(1.1);opacity:1}
-  100%{transform:scale(1);opacity:0.6}
+.panel{
+  background: rgba(20, 0, 40, 0.6);
+  border:1px solid rgba(199,125,255,0.5);
+  border-radius:20px;
+  padding:20px;
+  backdrop-filter: blur(10px);
+  box-shadow:0 0 25px rgba(199,125,255,0.5);
+  max-width:300px;
 }
 
 .title{
-  font-size:2rem;
+  font-size:1.9rem;
   font-weight:bold;
   background:linear-gradient(90deg,#c77dff,#e0aaff);
   -webkit-background-clip:text;
@@ -88,8 +94,7 @@ body::before{
   width:200px;
   height:260px;
   overflow:hidden;
-  border-radius:20px;
-  box-shadow:0 0 25px rgba(199,125,255,0.6);
+  border-radius:15px;
   position:relative;
 }
 
@@ -107,7 +112,6 @@ body::before{
 }
 
 .typing{
-  max-width:260px;
   line-height:1.6;
 }
 
@@ -129,25 +133,36 @@ body::before{
   to{transform:translateY(-10vh)}
 }
 
-</style></head><body><div class="progress-line"></div><div class="container">
-  <h1 class="title">Para Drika, minha princesa ❤️</h1>
-  <p>5 meses e 20 dias ao seu lado</p>
-</div><div class="container">
-  <div class="carousel">
-    <img src="foto1.jpg" class="active">
-    <img src="foto2.jpg">
-    <img src="foto3.jpg">
+</style></head><body><div class="stars"></div>
+<div class="progress-line"></div><div class="container">
+  <div class="panel">
+    <h1 class="title">Para Drika, minha princesa ❤️</h1>
+    <p>5 meses e 20 dias ao seu lado</p>
   </div>
 </div><div class="container">
-  <h2>Uma mensagem 💌</h2>
-  <p id="text" class="typing"></p>
+  <div class="panel">
+    <div class="carousel">
+      <img src="foto1.jpg" class="active">
+      <img src="foto2.jpg">
+      <img src="foto3.jpg">
+    </div>
+  </div>
 </div><div class="container">
-  <button class="btn" onclick="surpresa()">Clique aqui 💖</button>
-  <p id="surpresa" style="opacity:0;">Você é o melhor capítulo da minha vida... te amarei pra todo sempre ❤️</p>
+  <div class="panel">
+    <h2>Uma mensagem 💌</h2>
+    <p id="text" class="typing"></p>
+  </div>
 </div><div class="container">
-  <audio id="audio" controls>
-    <source src="musica.mp3" type="audio/mpeg">
-  </audio>
+  <div class="panel">
+    <button class="btn" onclick="surpresa()">Clique aqui 💖</button>
+    <p id="surpresa" style="opacity:0;">Você é o melhor capítulo da minha vida... te amarei pra todo sempre ❤️</p>
+  </div>
+</div><div class="container">
+  <div class="panel">
+    <audio id="audio" controls>
+      <source src="musica.mp3" type="audio/mpeg">
+    </audio>
+  </div>
 </div><script>
 
 const imgs = document.querySelectorAll('.carousel img');
