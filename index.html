@@ -13,28 +13,40 @@ body{
   background: linear-gradient(to bottom, #1a0033, #0b0015);
 }
 
-/* ESTRELAS */
-body::after{
-  content:"";
+/* ESTRELAS COM BRILHO DINÂMICO */
+.stars{
   position:fixed;
   inset:0;
-  background-image: radial-gradient(white 1px, transparent 1px);
-  background-size: 50px 50px;
-  opacity:0.2;
   z-index:0;
 }
 
-/* LINHA (COMEÇA APÓS TÍTULO) */
+.star{
+  position:absolute;
+  width:2px;
+  height:2px;
+  background:white;
+  border-radius:50%;
+  opacity:0.3;
+  animation:twinkle 3s infinite ease-in-out;
+}
+
+@keyframes twinkle{
+  0%,100%{opacity:0.2; transform:scale(1)}
+  50%{opacity:1; transform:scale(1.8)}
+}
+
+/* LINHA CONECTADA */
 .progress-line{
   position:fixed;
   left:50%;
-  top:120px;
+  top:50vh;
   width:3px;
-  height:calc(100vh - 120px);
+  height:0;
   background:#c77dff;
   transform:translateX(-50%);
   box-shadow:0 0 20px #c77dff;
   z-index:1;
+  transition:height 0.3s ease;
 }
 
 .container{
@@ -70,7 +82,6 @@ body::after{
   object-fit:cover;
   display:none;
   border-radius:20px;
-  cursor:pointer;
 }
 
 .carousel img.active{
@@ -82,11 +93,8 @@ body::after{
   background:linear-gradient(90deg,#c77dff,#e0aaff);
   border-radius:25px;
   cursor:pointer;
-  box-shadow:0 0 20px #c77dff;
-  border:none;
 }
 
-/* MODAL FINAL */
 .modal{
   position:fixed;
   inset:0;
@@ -98,7 +106,7 @@ body::after{
   opacity:0;
   pointer-events:none;
   transition:0.4s;
-  z-index:999; /* FICA NA FRENTE DE TUDO */
+  z-index:999;
 }
 
 .modal.show{
@@ -121,7 +129,8 @@ body::after{
   to{transform:scale(1);opacity:1}
 }
 
-</style></head><body><div class="progress-line"></div><section class="container">
+</style></head><body><div class="stars" id="stars"></div>
+<div class="progress-line" id="line"></div><section class="container">
   <div class="panel">
     <h1 class="title">Para Drika, minha princesa ❤️</h1>
     <p>5 meses e 20 dias ao seu lado</p>
@@ -150,6 +159,25 @@ body::after{
 </div><audio id="audio">
   <source src="musica.mp3" type="audio/mpeg">
 </audio><script>
+
+// ⭐ GERAR ESTRELAS
+const starsContainer = document.getElementById('stars');
+for(let i=0;i<80;i++){
+  const star=document.createElement('div');
+  star.className='star';
+  star.style.top=Math.random()*100+'%';
+  star.style.left=Math.random()*100+'%';
+  star.style.animationDuration=(2+Math.random()*3)+'s';
+  starsContainer.appendChild(star);
+}
+
+// LINHA PROGRESSIVA
+window.addEventListener('scroll',()=>{
+  const scroll = window.scrollY;
+  const height = document.body.scrollHeight - window.innerHeight;
+  const percent = scroll / height;
+  document.getElementById('line').style.height = (percent * 100) + 'vh';
+});
 
 // CARROSSEL
 const imgs=document.querySelectorAll('.carousel img');
