@@ -6,39 +6,55 @@
 <script src="https://cdn.tailwindcss.com"></script><style>
 body{
   margin:0;
-  background:linear-gradient(180deg,#000,#140006);
+  background: radial-gradient(circle at 20% 20%, #3a0ca3, #000),
+              radial-gradient(circle at 80% 30%, #7209b7, transparent),
+              radial-gradient(circle at 50% 80%, #560bad, transparent);
   color:#fff;
   font-family:sans-serif;
   overflow-x:hidden;
   overflow-y:auto;
 }
 
+/* LINHA PROGRESSO NEON */
+.progress-line{
+  position:fixed;
+  left:50%;
+  top:0;
+  width:4px;
+  height:100%;
+  background:linear-gradient(#c77dff,#e0aaff);
+  transform:translateX(-50%);
+  box-shadow:0 0 20px #c77dff, 0 0 40px #c77dff;
+  z-index:0;
+}
+
 .container{
-  height:100vh;
+  min-height:100vh;
   display:flex;
   flex-direction:column;
   justify-content:center;
   align-items:center;
-  gap:12px;
+  gap:10px;
   text-align:center;
   padding:15px;
+  position:relative;
+  z-index:1;
 }
 
 .title{
   font-size:2rem;
   font-weight:bold;
-  background:linear-gradient(90deg,#ff4d6d,#ff99ac);
+  background:linear-gradient(90deg,#c77dff,#e0aaff);
   -webkit-background-clip:text;
   color:transparent;
 }
 
-/* ROLETA */
 .carousel{
   width:220px;
   height:300px;
   overflow:hidden;
   border-radius:20px;
-  box-shadow:0 0 25px rgba(255,77,109,0.5);
+  box-shadow:0 0 30px rgba(199,125,255,0.6);
   position:relative;
 }
 
@@ -56,28 +72,22 @@ body{
   transform:scale(1.05);
 }
 
-/* TEXTO */
 .typing{
   max-width:300px;
-  line-height:1.5;
+  line-height:1.6;
   border-right:2px solid #fff;
 }
 
-/* BOTÃO */
 .btn{
   padding:10px 18px;
   border-radius:20px;
-  background:linear-gradient(90deg,#ff4d6d,#ff99ac);
+  background:linear-gradient(90deg,#c77dff,#e0aaff);
+  box-shadow:0 0 15px #c77dff;
 }
 
-.btn:hover{
-  transform:scale(1.08);
-}
-
-/* CORAÇÕES */
 .heart{
   position:fixed;
-  color:#ff4d6d;
+  color:#c77dff;
   animation:float 5s linear infinite;
 }
 
@@ -86,7 +96,7 @@ body{
   to{transform:translateY(-10vh)}
 }
 
-</style></head><body><div class="container">
+</style></head><body><div class="progress-line"></div><div class="container">
   <h1 class="title">Para Drika, minha princesa ❤️</h1>
   <p>5 meses e 20 dias ao seu lado</p>
 </div><div class="container">
@@ -100,14 +110,13 @@ body{
   <p id="text" class="typing"></p>
 </div><div class="container">
   <button class="btn" onclick="surpresa()">Clique aqui 💖</button>
-  <p id="surpresa" style="opacity:0;">Você é o melhor capítulo da minha vida ❤️</p>
+  <p id="surpresa" style="opacity:0;">Você é o melhor capítulo da minha vida... te amarei pra todo sempre ❤️</p>
 </div><div class="container">
   <audio id="audio" controls>
     <source src="musica.mp3" type="audio/mpeg">
   </audio>
 </div><script>
 
-// ROLETA REAL (troca de fotos)
 const imgs = document.querySelectorAll('.carousel img');
 let index = 0;
 
@@ -117,7 +126,6 @@ setInterval(()=>{
   imgs[index].classList.add('active');
 },2000);
 
-// TEXTO
 const msg = "Desde que você entrou na minha vida, tudo mudou completamente. Você trouxe uma felicidade que eu nunca senti antes, uma paz que eu nem sabia que precisava. Cada momento ao seu lado é especial, cada sorriso seu ilumina meu dia. Eu te amo de uma forma que palavras nunca vão conseguir explicar totalmente. Você é, sem dúvida, a melhor coisa que já aconteceu na minha vida ❤️";
 
 let i=0;
@@ -130,18 +138,16 @@ function typing(){
 }
 typing();
 
-// SURPRESA
 function surpresa(){
   document.getElementById('surpresa').style.opacity=1;
   document.getElementById('audio').play();
 }
 
-// CORAÇÕES
 setInterval(()=>{
   const h=document.createElement('div');
   h.className='heart';
   h.style.left=Math.random()*100+'vw';
-  h.innerHTML='❤️';
+  h.innerHTML='💜';
   document.body.appendChild(h);
   setTimeout(()=>h.remove(),5000);
 },400);
