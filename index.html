@@ -67,6 +67,25 @@ body{
   z-index:-1;
 }
 
+/* NÓS QUE CONECTAM NAS PLACAS */
+.node{
+  position:absolute;
+  left:50%;
+  width:18px;
+  height:18px;
+  background:#c77dff;
+  border-radius:50%;
+  transform:translate(-50%, -50%);
+  box-shadow:0 0 20px #c77dff, 0 0 40px #e0aaff;
+  animation:pulseNode 2s infinite alternate;
+  z-index:3;
+}
+
+@keyframes pulseNode{
+  from{box-shadow:0 0 10px #c77dff}
+  to{box-shadow:0 0 30px #e0aaff}
+}
+
 /* CONEXÃO ENTRE ETAPAS */
 .node{
   position:absolute;
@@ -155,11 +174,13 @@ body{
 
 </style></head><body><div class="stars"></div>
 <div class="timeline"></div><section class="container">
+  <div class="node"></div>
   <div class="panel">
     <h1 class="title">Para Drika, minha princesa ❤️</h1>
     <p>5 meses e 20 dias ao seu lado</p>
   </div>
 </section><section class="container">
+  <div class="node"></div>
   <div class="panel">
     <div class="carousel">
       <img src="foto1.jpg" class="active">
@@ -168,11 +189,13 @@ body{
     </div>
   </div>
 </section><section class="container">
+  <div class="node"></div>
   <div class="panel">
     <h2>Uma mensagem 💌</h2>
     <p id="text"></p>
   </div>
 </section><section class="container">
+  <div class="node"></div>
   <div class="panel">
     <button class="btn" onclick="abrirSurpresa()">Abrir surpresa 💖</button>
   </div>
