@@ -15,7 +15,7 @@ body{
   overflow-x:hidden;
 }
 
-/* ⭐ ESTRELAS MELHORADAS */
+/* ⭐ ESTRELAS */
 body::before{
   content:"";
   position:fixed;
@@ -35,7 +35,7 @@ body::before{
   to{transform:translateY(-1000px)}
 }
 
-/* 📦 CAIXAS PREMIUM */
+/* 📦 CAIXAS */
 .box{
   margin:40px auto;
   padding:28px;
@@ -59,7 +59,7 @@ body::before{
   color:transparent;
 }
 
-/* 💖 DIVISOR PREMIUM */
+/* 💖 DIVISOR */
 .divider{
   display:flex;
   align-items:center;
@@ -136,6 +136,12 @@ body::before{
 <h1 class="title">Para Drika, minha princesa ❤️</h1>
 <p>5 meses e 20 dias ao seu lado</p>
 
+<!-- ⏳ CONTADOR -->
+<div class="box">
+  <h3>⏳ Nosso tempo juntos</h3>
+  <p id="contador"></p>
+</div>
+
 <div class="divider">
   <div class="line"></div>
   <div class="heart">💜</div>
@@ -209,7 +215,26 @@ setInterval(()=>{
   imgs[i].classList.add('active');
 },2000);
 
-// TEXTO FINAL
+// ⏳ CONTADOR
+function atualizarContador(){
+  const inicio = new Date("2025-11-01T00:00:00"); // ALTERA A DATA
+
+  const agora = new Date();
+  let diff = agora - inicio;
+
+  const dias = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const horas = Math.floor((diff / (1000 * 60 * 60)) % 24);
+  const minutos = Math.floor((diff / (1000 * 60)) % 60);
+  const segundos = Math.floor((diff / 1000) % 60);
+
+  document.getElementById("contador").innerHTML =
+    `${dias} dias, ${horas}h ${minutos}m ${segundos}s ❤️`;
+}
+
+setInterval(atualizarContador, 1000);
+atualizarContador();
+
+// 💖 SURPRESA
 function abrir(){
   const modal=document.getElementById('modal');
   const texto="Você é o melhor capítulo da minha vida... te amarei pra todo sempre ❤️";
