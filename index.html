@@ -80,6 +80,39 @@ body::before{
   text-shadow:0 0 10px #ff8bdc;
 }
 
+/* ⏳ FLIP CLOCK */
+.flip-container{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  margin-top:10px;
+  flex-wrap:wrap;
+}
+
+.flip-box{
+  background:rgba(20,0,40,0.8);
+  border-radius:10px;
+  padding:10px;
+  width:65px;
+  box-shadow:0 0 15px rgba(199,125,255,0.5);
+}
+
+.flip-box span{
+  display:block;
+  font-size:1.4rem;
+  font-weight:bold;
+  transition:transform 0.4s;
+}
+
+.flip-box small{
+  font-size:0.7rem;
+  color:#ccc;
+}
+
+.flip{
+  transform:rotateX(360deg);
+}
+
 /* 📸 CARROSSEL */
 .carousel img{
   width:100%;
@@ -136,28 +169,25 @@ body::before{
 <h1 class="title">Para Drika, minha princesa ❤️</h1>
 <p>5 meses e 20 dias ao seu lado</p>
 
-<!-- ⏳ CONTADOR -->
+<!-- ⏳ CONTADOR FLIP -->
 <div class="box">
   <h3>⏳ Nosso tempo juntos</h3>
-  <p id="contador"></p>
+  <div class="flip-container">
+    <div class="flip-box"><span id="dias">00</span><small>Dias</small></div>
+    <div class="flip-box"><span id="horas">00</span><small>Horas</small></div>
+    <div class="flip-box"><span id="minutos">00</span><small>Min</small></div>
+    <div class="flip-box"><span id="segundos">00</span><small>Seg</small></div>
+  </div>
 </div>
 
-<div class="divider">
-  <div class="line"></div>
-  <div class="heart">💜</div>
-  <div class="line"></div>
-</div>
+<div class="divider"><div class="line"></div><div class="heart">💜</div><div class="line"></div></div>
 
 <div class="box">
   <h3>1. Nosso começo</h3>
   <p>Tudo começou de forma simples... mas já era especial ❤️</p>
 </div>
 
-<div class="divider">
-  <div class="line"></div>
-  <div class="heart">💜</div>
-  <div class="line"></div>
-</div>
+<div class="divider"><div class="line"></div><div class="heart">💜</div><div class="line"></div></div>
 
 <div class="box">
   <h3>2. Nossos momentos</h3>
@@ -168,22 +198,14 @@ body::before{
   </div>
 </div>
 
-<div class="divider">
-  <div class="line"></div>
-  <div class="heart">💜</div>
-  <div class="line"></div>
-</div>
+<div class="divider"><div class="line"></div><div class="heart">💜</div><div class="line"></div></div>
 
 <div class="box">
   <h3>3. Você 💖</h3>
   <p>Seu sorriso, seu jeito, seu coração... tudo em você me encanta.</p>
 </div>
 
-<div class="divider">
-  <div class="line"></div>
-  <div class="heart">💜</div>
-  <div class="line"></div>
-</div>
+<div class="divider"><div class="line"></div><div class="heart">💜</div><div class="line"></div></div>
 
 <div class="box">
   <p>
@@ -215,10 +237,9 @@ setInterval(()=>{
   imgs[i].classList.add('active');
 },2000);
 
-// ⏳ CONTADOR
+// ⏳ CONTADOR FLIP
 function atualizarContador(){
-  const inicio = new Date("2025-11-01T00:00:00"); // ALTERA A DATA
-
+  const inicio = new Date("2025-11-01T00:00:00"); // ALTERA DATA
   const agora = new Date();
   let diff = agora - inicio;
 
@@ -227,8 +248,21 @@ function atualizarContador(){
   const minutos = Math.floor((diff / (1000 * 60)) % 60);
   const segundos = Math.floor((diff / 1000) % 60);
 
-  document.getElementById("contador").innerHTML =
-    `${dias} dias, ${horas}h ${minutos}m ${segundos}s ❤️`;
+  atualizarFlip("dias", dias);
+  atualizarFlip("horas", horas);
+  atualizarFlip("minutos", minutos);
+  atualizarFlip("segundos", segundos);
+}
+
+function atualizarFlip(id, valor){
+  const el = document.getElementById(id);
+  if(el.innerText != valor){
+    el.classList.add("flip");
+    setTimeout(()=>{
+      el.innerText = String(valor).padStart(2,'0');
+      el.classList.remove("flip");
+    },200);
+  }
 }
 
 setInterval(atualizarContador, 1000);
