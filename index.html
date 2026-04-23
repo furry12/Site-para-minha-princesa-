@@ -1,221 +1,149 @@
 <!DOCTYPE html><html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Nossa História ❤️</title>  <script src="https://cdn.tailwindcss.com"></script>  <style>
-    :root { --size: 220px; --depth: 280px; }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para Drika ❤️</title>
+<script src="https://cdn.tailwindcss.com"></script><style>
+body{
+  margin:0;
+  background:linear-gradient(180deg,#000,#140006);
+  color:#fff;
+  font-family:sans-serif;
+  overflow:hidden;
+}
 
-    body {
-      margin: 0;
-      background: linear-gradient(180deg, #000, #1a0008);
-      color: white;
-      font-family: sans-serif;
-      overflow-x: hidden;
-      scroll-snap-type: y mandatory;
-    }
+.container{
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  gap:12px;
+  text-align:center;
+  padding:15px;
+}
 
-    section {
-      height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 10px;
-      gap: 10px;
-      scroll-snap-align: start;
-    }
+.title{
+  font-size:2rem;
+  font-weight:bold;
+  background:linear-gradient(90deg,#ff4d6d,#ff99ac);
+  -webkit-background-clip:text;
+  color:transparent;
+}
 
-    .title {
-      font-size: 2.2rem;
-      font-weight: bold;
-      background: linear-gradient(90deg,#ff4d6d,#ff99ac);
-      -webkit-background-clip: text;
-      color: transparent;
-      animation: fadeUp 1s ease forwards;
-    }
+/* ROLETA */
+.carousel{
+  width:220px;
+  height:300px;
+  overflow:hidden;
+  border-radius:20px;
+  box-shadow:0 0 25px rgba(255,77,109,0.5);
+  position:relative;
+}
 
-    p { margin: 0; opacity: 0.85; }
+.carousel img{
+  position:absolute;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:0;
+  transition:0.8s;
+}
 
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
+.carousel img.active{
+  opacity:1;
+  transform:scale(1.05);
+}
 
-    /* CARROSSEL */
-    .carousel {
-      perspective: 1000px;
-      width: var(--size);
-      height: var(--size);
-    }
+/* TEXTO */
+.typing{
+  max-width:300px;
+  line-height:1.5;
+  border-right:2px solid #fff;
+}
 
-    .carousel-inner {
-      position: relative;
-      width: 100%;
-      height: 100%;
-      transform-style: preserve-3d;
-      animation: spin 8s linear infinite;
-    }
+/* BOTÃO */
+.btn{
+  padding:10px 18px;
+  border-radius:20px;
+  background:linear-gradient(90deg,#ff4d6d,#ff99ac);
+}
 
-    .carousel-inner img {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 100%;
-      height: 100%;
-      transform: translate(-50%, -50%);
-      object-fit: cover;
-      border-radius: 18px;
-      box-shadow: 0 0 20px rgba(255,77,109,0.7);
-      transition: 0.4s;
-    }
+.btn:hover{
+  transform:scale(1.08);
+}
 
-    .img1 { transform: translate(-50%, -50%) rotateY(0deg) translateZ(var(--depth)); }
-    .img2 { transform: translate(-50%, -50%) rotateY(120deg) translateZ(var(--depth)); }
-    .img3 { transform: translate(-50%, -50%) rotateY(240deg) translateZ(var(--depth)); }
+/* CORAÇÕES */
+.heart{
+  position:fixed;
+  color:#ff4d6d;
+  animation:float 5s linear infinite;
+}
 
-    @keyframes spin {
-      from { transform: rotateY(0deg); }
-      to { transform: rotateY(360deg); }
-    }
+@keyframes float{
+  from{transform:translateY(100vh)}
+  to{transform:translateY(-10vh)}
+}
 
-    .btn {
-      padding: 10px 20px;
-      background: linear-gradient(90deg,#ff4d6d,#ff99ac);
-      border-radius: 25px;
-      transition: 0.3s;
-    }
+</style></head><body><div class="container">
+  <h1 class="title">Para Drika, minha princesa ❤️</h1>
+  <p>5 meses e 20 dias ao seu lado</p>
+</div><div class="container">
+  <div class="carousel">
+    <img src="foto1.jpg" class="active">
+    <img src="foto2.jpg">
+    <img src="foto3.jpg">
+  </div>
+</div><div class="container">
+  <h2>Uma mensagem 💌</h2>
+  <p id="text" class="typing"></p>
+</div><div class="container">
+  <button class="btn" onclick="surpresa()">Clique aqui 💖</button>
+  <p id="surpresa" style="opacity:0;">Você é o melhor capítulo da minha vida ❤️</p>
+</div><div class="container">
+  <audio id="audio" controls>
+    <source src="musica.mp3" type="audio/mpeg">
+  </audio>
+</div><script>
 
-    .btn:hover {
-      transform: scale(1.1);
-      box-shadow: 0 0 20px #ff4d6d;
-    }
+// ROLETA REAL (troca de fotos)
+const imgs = document.querySelectorAll('.carousel img');
+let index = 0;
 
-    /* TEXTO MELHORADO */
-    .typing {
-      border-right: 2px solid white;
-      white-space: normal;
-      overflow: hidden;
-      max-width: 90vw;
-      line-height: 1.6;
-    }
+setInterval(()=>{
+  imgs[index].classList.remove('active');
+  index = (index + 1) % imgs.length;
+  imgs[index].classList.add('active');
+},2000);
 
-    .heart {
-      position: fixed;
-      color: #ff4d6d;
-      animation: float 5s linear infinite;
-    }
+// TEXTO
+const msg = "Desde que você entrou na minha vida, tudo mudou completamente. Você trouxe uma felicidade que eu nunca senti antes, uma paz que eu nem sabia que precisava. Cada momento ao seu lado é especial, cada sorriso seu ilumina meu dia. Eu te amo de uma forma que palavras nunca vão conseguir explicar totalmente. Você é, sem dúvida, a melhor coisa que já aconteceu na minha vida ❤️";
 
-    @keyframes float {
-      from { transform: translateY(100vh); }
-      to { transform: translateY(-10vh); }
-    }
+let i=0;
+function typing(){
+  if(i<msg.length){
+    document.getElementById('text').innerHTML += msg.charAt(i);
+    i++;
+    setTimeout(typing,25);
+  }
+}
+typing();
 
-    .star {
-      position: fixed;
-      width: 2px;
-      height: 2px;
-      background: white;
-      animation: twinkle 2s infinite alternate;
-    }
+// SURPRESA
+function surpresa(){
+  document.getElementById('surpresa').style.opacity=1;
+  document.getElementById('audio').play();
+}
 
-    @keyframes twinkle {
-      from { opacity: 0.2; }
-      to { opacity: 1; }
-    }
+// CORAÇÕES
+setInterval(()=>{
+  const h=document.createElement('div');
+  h.className='heart';
+  h.style.left=Math.random()*100+'vw';
+  h.innerHTML='❤️';
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),5000);
+},400);
 
-    .modal {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.9);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      pointer-events: none;
-      transition: 0.3s;
-    }
-
-    .modal.show { opacity: 1; pointer-events: all; }
-
-    .modal img {
-      max-width: 90%;
-      border-radius: 20px;
-    }
-  </style></head><body>  <section>
-    <h1 class="title">Para Drika, minha princesa ❤️</h1>
-    <p>Um pedacinho do que sinto por você</p>
-    <button class="btn" onclick="next()">Começar ✨</button>
-  </section>  <section>
-    <h2>Estamos juntos há ❤️</h2>
-    <p style="font-size:1.5rem;font-weight:bold;">5 meses e 20 dias</p>
-  </section>  <section>
-    <h2>Nossos Momentos 📸</h2>
-    <div class="carousel">
-      <div class="carousel-inner">
-        <img src="foto1.jpg" class="img1" onclick="openModal(this.src)">
-        <img src="foto2.jpg" class="img2" onclick="openModal(this.src)">
-        <img src="foto3.jpg" class="img3" onclick="openModal(this.src)">
-      </div>
-    </div>
-  </section>  <section>
-    <h2>Uma mensagem 💌</h2>
-    <p id="text" class="typing"></p>
-  </section>  <section>
-    <button class="btn" onclick="surpresa()">Clique aqui 💖</button>
-    <p id="surpresa" style="opacity:0;">Você é o melhor capítulo da minha vida ❤️</p>
-  </section>  <section>
-    <h2>Nossa música 🎶</h2>
-    <audio id="audio" controls>
-      <source src="musica.mp3" type="audio/mpeg">
-    </audio>
-  </section>  <div class="modal" id="modal" onclick="closeModal()">
-    <img id="modalImg">
-  </div>  <script>
-    function next(){ window.scrollBy({top:window.innerHeight,behavior:'smooth'}); }
-
-    const msg = "Desde que você entrou na minha vida, tudo mudou de uma forma que eu nunca imaginei. Você trouxe leveza, trouxe paz, trouxe um amor que eu nem sabia que era possível sentir. Cada sorriso seu ilumina meus dias, cada abraço seu é o meu lugar favorito no mundo. Eu poderia escrever mil palavras aqui, mas nenhuma seria suficiente pra descrever o quanto eu te amo, o quanto você é importante pra mim e o quanto eu quero continuar vivendo tudo isso ao seu lado. Você é, sem dúvida nenhuma, a melhor coisa que já me aconteceu ❤️";
-
-    let i=0;
-    function typing(){
-      if(i<msg.length){
-        document.getElementById('text').innerHTML += msg.charAt(i);
-        i++;
-        setTimeout(typing,25);
-      }
-    }
-    typing();
-
-    function surpresa(){
-      document.getElementById('surpresa').style.opacity=1;
-      document.getElementById('audio').play();
-    }
-
-    function openModal(src){
-      document.getElementById('modalImg').src=src;
-      document.getElementById('modal').classList.add('show');
-    }
-
-    function closeModal(){
-      document.getElementById('modal').classList.remove('show');
-    }
-
-    setInterval(()=>{
-      const h=document.createElement('div');
-      h.className='heart';
-      h.style.left=Math.random()*100+'vw';
-      h.innerHTML='❤️';
-      h.style.fontSize=(Math.random()*18+10)+'px';
-      document.body.appendChild(h);
-      setTimeout(()=>h.remove(),5000);
-    },350);
-
-    for(let i=0;i<40;i++){
-      const s=document.createElement('div');
-      s.className='star';
-      s.style.left=Math.random()*100+'vw';
-      s.style.top=Math.random()*100+'vh';
-      document.body.appendChild(s);
-    }
-  </script></body>
+</script></body>
 </html>
