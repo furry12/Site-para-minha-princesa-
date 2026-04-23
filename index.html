@@ -2,10 +2,142 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Para Drika ❤️</title>
-<link rel="stylesheet" href="style.css">
-</head><body><div class="stars"></div>
-<div class="progress-line"></div><section class="container">
+<title>Para Drika ❤️</title><style>
+body{
+  margin:0;
+  background:#0b0015;
+  color:#fff;
+  font-family:sans-serif;
+  overflow-x:hidden;
+}
+
+/* GALAXIA */
+body::before{
+  content:"";
+  position:fixed;
+  width:200%;
+  height:200%;
+  background:
+    radial-gradient(2px 2px at 20% 30%, #c77dff, transparent),
+    radial-gradient(2px 2px at 70% 60%, #e0aaff, transparent),
+    radial-gradient(2px 2px at 40% 80%, #9d4edd, transparent);
+  animation: move 60s linear infinite;
+  z-index:0;
+}
+
+@keyframes move{
+  from{transform:translate(0,0)}
+  to{transform:translate(-300px,-300px)}
+}
+
+/* LINHA */
+.progress-line{
+  position:fixed;
+  left:50%;
+  top:10vh;
+  width:3px;
+  height:90%;
+  background:#c77dff;
+  transform:translateX(-50%);
+  box-shadow:0 0 15px #c77dff;
+  z-index:1;
+}
+
+.container{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  position:relative;
+  z-index:2;
+}
+
+.panel{
+  background:rgba(20,0,40,0.7);
+  border:2px solid #c77dff;
+  border-radius:25px;
+  padding:25px;
+  box-shadow:0 0 30px rgba(199,125,255,0.7);
+  text-align:center;
+}
+
+.title{
+  font-size:2rem;
+  background:linear-gradient(90deg,#c77dff,#e0aaff);
+  -webkit-background-clip:text;
+  color:transparent;
+}
+
+.carousel img{
+  width:200px;
+  height:260px;
+  object-fit:cover;
+  display:none;
+  border-radius:15px;
+}
+
+.carousel img.active{
+  display:block;
+}
+
+.btn{
+  padding:12px 20px;
+  background:#c77dff;
+  border-radius:20px;
+  cursor:pointer;
+}
+
+/* MODAL CINEMATOGRAFICO */
+.modal{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.85);
+  backdrop-filter: blur(8px);
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  opacity:0;
+  pointer-events:none;
+  transition:0.5s;
+}
+
+.modal.show{
+  opacity:1;
+  pointer-events:all;
+}
+
+.modal-content{
+  background:#140020;
+  padding:25px;
+  border-radius:20px;
+  border:2px solid #c77dff;
+  box-shadow:0 0 30px #c77dff;
+  transform:scale(0.6);
+  opacity:0;
+  animation:zoomIn 0.6s forwards, pulseGlow 2s infinite alternate;
+}
+
+@keyframes zoomIn{
+  to{transform:scale(1);opacity:1}
+}
+
+@keyframes pulseGlow{
+  from{ box-shadow:0 0 20px #c77dff; }
+  to{ box-shadow:0 0 40px #e0aaff; }
+}
+
+.heart{
+  position:fixed;
+  color:#c77dff;
+  animation:float 5s linear infinite;
+}
+
+@keyframes float{
+  from{transform:translateY(100vh)}
+  to{transform:translateY(-10vh)}
+}
+
+</style></head><body><div class="progress-line"></div><section class="container">
   <div class="panel">
     <h1 class="title">Para Drika, minha princesa ❤️</h1>
     <p>5 meses e 20 dias ao seu lado</p>
@@ -21,59 +153,74 @@
 </section><section class="container">
   <div class="panel">
     <h2>Uma mensagem 💌</h2>
-    <p id="text" class="typing"></p>
+    <p id="text"></p>
   </div>
 </section><section class="container">
   <div class="panel">
     <button class="btn" onclick="abrirSurpresa()">Abrir surpresa 💖</button>
   </div>
-</section><!-- MODAL SURPRESA --><div id="modal" class="modal">
-  <div class="modal-content">
+</section><div id="modal" class="modal" onclick="fecharModal()">
+  <div class="modal-content" onclick="event.stopPropagation()">
     <p id="surpresaText"></p>
   </div>
-</div><section class="container">
-  <div class="panel">
-    <audio id="audio">
-      <source src="musica.mp3" type="audio/mpeg">
-    </audio>
-  </div>
-</section><script src="script.js"></script></body>
-</html>/* ================= CSS ================= */ body{ margin:0; background:#0b0015; color:#fff; font-family:sans-serif; overflow-x:hidden; }
+</div><audio id="audio">
+  <source src="musica.mp3" type="audio/mpeg">
+</audio><script>
 
-.stars::after{ content:""; position:fixed; width:2px; height:2px; background:white; box-shadow:0 0 2px #c77dff, 100px 200px #fff, 200px 300px #9d4edd; animation:moveStars 40s linear infinite; }
+// CARROSSEL
+const imgs=document.querySelectorAll('.carousel img');
+let i=0;
+setInterval(()=>{
+  imgs[i].classList.remove('active');
+  i=(i+1)%imgs.length;
+  imgs[i].classList.add('active');
+},2000);
 
-@keyframes moveStars{ from{transform:translateY(0)} to{transform:translateY(-1000px)} }
+// TEXTO
+const texto="Desde que você entrou na minha vida, tudo mudou completamente. Você trouxe uma felicidade que eu nunca senti antes... Você é a melhor coisa que já aconteceu comigo ❤️";
+let t=0;
+function typing(){
+  if(t<texto.length){
+    document.getElementById('text').innerHTML+=texto[t];
+    t++;
+    setTimeout(typing,25);
+  }
+}
+typing();
 
-.progress-line{ position:fixed; left:50%; top:10vh; /* começa depois do título */ width:3px; height:90%; background:#c77dff; transform:translateX(-50%); box-shadow:0 0 15px #c77dff; }
+// SURPRESA CINEMATOGRAFICA
+function abrirSurpresa(){
+  const modal=document.getElementById('modal');
+  const texto="Você é o melhor capítulo da minha vida... te amarei pra todo sempre ❤️";
+  let j=0;
+  document.getElementById('surpresaText').innerHTML="";
+  modal.classList.add('show');
 
-.container{ min-height:100vh; display:flex; justify-content:center; align-items:center; }
+  function escrever(){
+    if(j<texto.length){
+      document.getElementById('surpresaText').innerHTML+=texto[j];
+      j++;
+      setTimeout(escrever,30);
+    }else{
+      document.getElementById('audio').play();
+    }
+  }
+  escrever();
+}
 
-.panel{ background:rgba(20,0,40,0.7); border:2px solid #c77dff; border-radius:25px; padding:25px; box-shadow:0 0 30px rgba(199,125,255,0.7); }
+function fecharModal(){
+  document.getElementById('modal').classList.remove('show');
+}
 
-.carousel img{ width:200px; height:260px; object-fit:cover; display:none; } .carousel img.active{display:block}
+// CORAÇÕES
+setInterval(()=>{
+  const h=document.createElement('div');
+  h.className='heart';
+  h.style.left=Math.random()*100+'vw';
+  h.innerHTML='💜';
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),5000);
+},400);
 
-.btn{ padding:12px 20px; background:#c77dff; border-radius:20px; }
-
-.modal{ position:fixed; inset:0; background:rgba(0,0,0,0.85); backdrop-filter: blur(8px); display:flex; justify-content:center; align-items:center; opacity:0; pointer-events:none; transition:0.5s ease; }
-
-.modal.show{ opacity:1; pointer-events:all; }
-
-.modal-content{ background:#140020; padding:25px; border-radius:20px; border:2px solid #c77dff; box-shadow:0 0 30px #c77dff; transform:scale(0.6); opacity:0; animation:zoomIn 0.6s ease forwards, pulseGlow 2s infinite alternate; }
-
-@keyframes zoomIn{ to{ transform:scale(1); opacity:1; } }
-
-@keyframes pulseGlow{ from{ box-shadow:0 0 20px #c77dff; } to{ box-shadow:0 0 40px #e0aaff; } }
-
-@keyframes zoomIn{ to{ transform:scale(1); opacity:1; } }
-
-.modal.show{ opacity:1; pointer-events:all; }
-
-.modal-content{ background:#140020; padding:25px; border-radius:20px; border:2px solid #c77dff; box-shadow:0 0 20px #c77dff; }
-
-/* ================= JS ================= */ const imgs=document.querySelectorAll('.carousel img'); let i=0; setInterval(()=>{ imgs[i].classList.remove('active'); i=(i+1)%imgs.length; imgs[i].classList.add('active'); },2000);
-
-const texto="Desde que você entrou na minha vida..."; let t=0; function typing(){ if(t<texto.length){ document.getElementById('text').innerHTML+=texto[t]; t++; setTimeout(typing,25); } } typing();
-
-function abrirSurpresa(){ const modal=document.getElementById('modal'); const texto="Você é o melhor capítulo da minha vida... te amarei pra todo sempre ❤️"; let j=0; modal.classList.add('show');
-
-function escrever(){ if(j<texto.length){ document.getElementById('surpresaText').innerHTML+=texto[j]; j++; setTimeout(escrever,30); }else{ document.getElementById('audio').play(); } } escrever(); }
+</script></body>
+</html>
